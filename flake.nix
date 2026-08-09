@@ -14,7 +14,8 @@
           default = pkgs.mkShell {
             # pandoc y poppler-utils son dependencias de RUNTIME: convert los invoca.
             # Van acá para no tocar la config del sistema.
-            packages = with pkgs; [ go gopls pandoc poppler-utils libreoffice ];
+            packages = with pkgs; [ go gopls pandoc poppler-utils ];
+            # libreoffice NO: ya está en el sistema (soffice en PATH) y son ~1 GB.
           };
         });
     };
