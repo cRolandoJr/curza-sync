@@ -1,0 +1,16 @@
+# Credenciales y estado — NUNCA al repo (es público)
+.env
+*.db
+session.json
+catalogo.json
+
+# Volcados crudos de PEDCO: pueden traer sesskey/userid
+debug_*.html
+dump/
+material/
+
+# Build
+/curza-sync
+result
+result-*
+.direnv/
