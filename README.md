@@ -1,5 +1,7 @@
 # curza-sync
 
+![CI](https://github.com/cRolandoJr/curza-sync/actions/workflows/ci.yml/badge.svg)
+
 Baja el material de las materias de CURZA (Moodle/PEDCO) y lo deja en **un archivo
 markdown por unidad**, para no tener que ir a buscar recurso por recurso antes de cada
 clase.
@@ -26,14 +28,14 @@ LibreOffice no está en el devshell a propósito: ya viene con el sistema y son 
 Pasa un recurso a texto plano. Delega en herramientas externas porque para PDF no hay
 nada en Go que se acerque a poppler.
 
-| Extensión | Herramienta |
-|---|---|
-| `.pdf` | `pdftotext -layout` |
-| `.html .htm .docx .odt .epub .rtf` | `pandoc` |
-| `.ppt .pptx .doc .xls .xlsx` | `soffice --headless` |
-| `.txt .md` | tal cual |
+| Extensión                          | Herramienta          |
+| ---------------------------------- | -------------------- |
+| `.pdf`                             | `pdftotext -layout`  |
+| `.html .htm .docx .odt .epub .rtf` | `pandoc`             |
+| `.ppt .pptx .doc .xls .xlsx`       | `soffice --headless` |
+| `.txt .md`                         | tal cual             |
 
-**"Convirtió" no es exit 0, es *extrajo texto*.** Un PDF escaneado sin capa de texto sale
+**"Convirtió" no es exit 0, es _extrajo texto_.** Un PDF escaneado sin capa de texto sale
 con exit 0 y una salida de saltos de línea: por debajo de `MinPalabras` (20) devuelve
 `ErrSinTexto` y el llamador tiene que marcar el recurso ⚠ y dejar el original.
 
@@ -54,7 +56,6 @@ README de 14 palabras y un log vacío — el umbral haciendo su trabajo.
 
 Gotcha del terreno: los archivos de cátedra **tienen espacios y acentos en el nombre**
 ("Trabajo practico Nro 1.pdf"). Cualquier pegamento en shell tiene que citar bien.
-
 
 ## `internal/domain`
 
