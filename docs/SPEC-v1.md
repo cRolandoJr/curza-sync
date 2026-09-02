@@ -249,6 +249,38 @@ Eso habilita **dos** cosas, y la primera resultó más valiosa que la segunda:
 **Límite del dato:** el review **no revela cuál era la correcta** (sólo "Respuesta incorrecta").
 Lejos de ser un problema, obliga al producto a explicar desde el material en vez de soplar.
 
+### C7 · Ayuda para los TPs — sin hacer el TP
+
+**El mismo motor de C5, apuntado a la consigna en vez de a una pregunta fallada.**
+
+1. **Juntar la consigna dispersa.** Verificado el 2026-09-02: cada cátedra la pone en un lugar
+   distinto — en `intro` (THyS), en `introattachments` (Automatización: `TP1-AyS.odt`), o
+   suelta como recurso de la sección (Bases de Datos, que trae `intro` vacía). Buscar en los
+   tres lugares es trabajo que hoy hace el alumno a mano.
+2. **Checklist de entregables.** Extraer los requisitos de formato y contenido. El TP1 de THyS
+   pide "PDF u ODT, capturas cuando sea necesario, **una sola entrega**": se reprueba por eso
+   sin fallar el contenido.
+3. **Enlazar el TP con el material que lo cubre.** Verificado: el TP3 de THyS dice *"utilizando
+   badblocks y fsck realice una comprobación del disco **como se vio en la teoría**"*, y la
+   teoría está en `3_2_Discos.pdf` líneas 319-333. El docente manda a buscar y el alumno
+   rastrea a mano.
+4. **Revisar antes de entregar:** ¿está cubierto cada punto de la consigna? Revisar el propio
+   trabajo, no producirlo.
+
+**Es Moodle estándar** (`mod_assign`): sirve igual en los 147.000 sitios.
+
+> ### ⛔ Lo que C7 NO hace: resolver el TP.
+>
+> Tres razones, y ninguna es moral:
+> 1. Es exactamente lo que el usuario declaró que lo está vaciando a él ("hago los TPs con IA
+>    y estoy superando las etapas sin que me quede nada"). Sería construir el problema.
+> 2. **Mata el objetivo declarado el día uno de dejar la herramienta en la universidad.**
+>    Ninguna facultad adopta algo que hace los trabajos: lo bloquea.
+> 3. Es la categoría más competida y copiable que existe.
+>
+> **Una herramienta que hace que el alumno use MÁS el material, una facultad la adopta. Una
+> que hace el trabajo, la bloquea.**
+
 ---
 
 ## Descartado, con su razón
@@ -299,7 +331,11 @@ Lejos de ser un problema, obliga al producto a explicar desde el material en vez
    3 incorrectas sobre 48. Para un alumno promedio sería más rico. Es un argumento a favor de
    priorizar la generación **por estilo** sobre la generación **por errores**.
 2. **El corpus crece.** 18-42k palabras es a mitad de cuatrimestre. Medir de nuevo en diciembre.
-3. **La escala de las notas se desconoce.** Dos entregas dicen `2.00000` sin saber sobre cuánto.
+3. ~~La escala de las notas se desconoce~~ → **RESUELTO 2026-09-02.** El campo `grade` de
+   `mod_assign_get_assignments` viene **negativo** (`-802`, `-795`, `-805`): en Moodle eso
+   significa que se califica **por escala**, y el número es el id de la escala. El `2.00000`
+   no era "2 sobre 10" sino la segunda posición de una escala. Para mostrar la nota con
+   sentido hay que resolver el nombre de la escala; con `grade` positivo sería puntaje máximo.
 4. **Otro Moodle puede tener menos funciones habilitadas.** La v1 sirve a PEDCO; el producto
    tendrá que enumerar capacidades al conectar y degradar features que falten.
 5. ~~`parsefecha` queda sin consumidor~~ → **RESUELTO 2026-09-02: se borra.** La API devuelve
