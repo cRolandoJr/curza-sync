@@ -125,6 +125,46 @@ que sea justamente por intermediar esas llamadas — y ahí el material *sí* pa
 servidor propio, lo que reabre la decisión 4. **Esa decisión es de la v2 y no se toma hoy.**
 La v1 no cierra ninguna puerta: cambiar de "clave propia" a "proxy" es cambiar un adaptador.
 
+### 11. Se captura todo; se presenta un default curado
+
+**Separar la captura de la presentación.** La captura es barata y no hacerla es caro (habría
+que volver a bajar 193 archivos). La presentación es lo que se lee y cambiarla después no
+cuesta nada.
+
+- **Se guarda el JSON crudo de cada sección**, completo, sin filtrar.
+- **El `.md` renderiza un subconjunto fijo**, decidido abajo.
+
+**Descartado: dejar que el alumno configure qué campos ve.** Once campos son once ramas y
+2.048 combinaciones que nadie testea, y le pide once decisiones a un usuario que —por la
+decisión 10— no es hábil con computadoras. Además contradice la regla del repo: cada adición
+necesita un consumidor real hoy. **Como el dato crudo queda guardado, el día que alguien pida
+un campo distinto agregarlo es trivial** — no hace falta construir la configurabilidad hoy
+para no perder la opción.
+
+### 12. Qué es una Unidad
+
+Una unidad **es una sección de Moodle**. El `.md` que se genera lleva:
+
+| Va al `.md` | |
+|---|---|
+| Título de la unidad | `section.name` |
+| Resumen que escribió el docente | `section.summary` |
+| Títulos de cada clase | los módulos `label` |
+| **El texto convertido de cada apunte** | el punto de todo |
+| Enlaces externos, como lista al final | módulos `url` |
+| Las entregas de esa unidad, con fecha y estado | módulos `assign` |
+| Ruta al PDF original en disco | para abrir el archivo real |
+
+| Se guarda, no se muestra | Por qué |
+|---|---|
+| Descripción de cada recurso | casi siempre repite el título |
+| Fecha de modificación de cada archivo | es ruido al estudiar; su lugar es C4 ("qué cambió") |
+| Estimación de minutos de lectura | es una estimación y se calcula al vuelo si hace falta |
+
+**Y "ya lo leí" NO va al `.md`, por una razón estructural:** el `.md` **se regenera** en cada
+corrida y borraría la marca. **El estado y el contenido generado no pueden vivir en el mismo
+archivo.** Va a `estado.json` (decisión 8).
+
 ---
 
 ## Las capacidades de la v1
