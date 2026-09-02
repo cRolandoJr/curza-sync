@@ -125,6 +125,26 @@ que sea justamente por intermediar esas llamadas — y ahí el material *sí* pa
 servidor propio, lo que reabre la decisión 4. **Esa decisión es de la v2 y no se toma hoy.**
 La v1 no cierra ninguna puerta: cambiar de "clave propia" a "proxy" es cambiar un adaptador.
 
+### 13. La selección de contexto se separa de la generación
+
+**Lo que elige qué se le manda al modelo es determinista y se testea con tests normales. Lo
+que el modelo redacta, no.** Van en paquetes distintos.
+
+Consecuencias concretas, y aplican desde la fase 2 aunque no haya índice vectorial:
+
+- **La procedencia se conserva por fragmento**, no sólo el texto pegado. Sin eso no se puede
+  citar, y la cita es lo que convierte una respuesta en la que hay que creer en una que se
+  puede comprobar.
+- **Al modelo se le manda más de un fragmento**, nunca uno solo. La selección se equivoca:
+  es una distancia entre números, no magia.
+- **Se le indica al modelo que use sólo lo que se le da, y que admita cuando no lo sabe.**
+- **Cuando un documento cambia, sus fragmentos viejos se borran.** Si no, se responde
+  mezclando dos versiones. Esto es lo que resuelve `estado.json` con hashes (decisión 8).
+
+*Fuente: "¿Cómo hago un RAG en Go? Sin framework, con pgvector y todo en local"
+(https://youtu.be/Dn3oq8bbcLM), aportado por el usuario el 2026-09-02. Confirma la decisión 3
+desde afuera: "si cabe todo, es complejidad de adorno".*
+
 ### 11. Se captura todo; se presenta un default curado
 
 **Separar la captura de la presentación.** La captura es barata y no hacerla es caro (habría
@@ -266,6 +286,15 @@ Lejos de ser un problema, obliga al producto a explicar desde el material en vez
    de cada cátedra. El producto tiene que degradar sin romperse.
 7. **La calidad de la práctica generada no está verificada.** Sabemos que hay insumo; no
    sabemos si la salida sirve. Se mide cuando exista, no se supone.
+9. **Los modelos de embeddings suelen estar entrenados sobre todo en inglés, y todo el
+   material es en español.** Si algún día se dispara el gatillo del índice (decisión 3),
+   **probar el modelo de embeddings contra material real en español antes de casarse con él**.
+   La fuente citada en la decisión 13 mostró en vivo una recuperación equivocada causada
+   exactamente por esto. Y el arreglo estándar cuando pasa se llama **reordenar (reranking)**:
+   recuperar 10 fragmentos y pasarlos por un segundo modelo que los ordene mejor.
+10. **`pgvector` no sirve para este producto**, aunque sea la opción por defecto del ecosistema:
+   exige PostgreSQL instalado y corriendo, contra la decisión 10 (`.exe` único, usuario que no
+   es hábil). Si llega el índice, tiene que viajar dentro del binario.
 8. **Para este usuario el insumo de "repaso por errores" es chico**: 43 correctas, 2 parciales,
    3 incorrectas sobre 48. Para un alumno promedio sería más rico. Es un argumento a favor de
    priorizar la generación **por estilo** sobre la generación **por errores**.
