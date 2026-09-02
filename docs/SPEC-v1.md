@@ -55,7 +55,8 @@ que el plan viejo pensaba deducir **viene dada**. Un `.md` por sección.
 **Material de cátedra** (apuntes, clases, TPs) vs **bibliografía** (libros de referencia).
 Difieren en un orden de magnitud: 42.000 palabras contra 508.000 en la misma materia.
 
-Se separan por **umbral de tamaño, configurable** (default: más de 50.000 palabras = biblio),
+Se separan por **umbral de tamaño, configurable** (default: más de 50.000 palabras = biblio;
+**confirmado por el usuario el 2026-09-02**),
 y el usuario puede reclasificar. La bibliografía se descarga y se lista, pero **no entra en el
 `.md` de la unidad**: iría al asistente y lo reventaría.
 
@@ -95,6 +96,19 @@ una entrada.
 **Divergencia consciente** con la decisión del 2026-08-04. Aquella eligió `sops` porque el
 usuario era Rolando en NixOS. Un producto tiene que funcionar para un estudiante que no sabe
 qué es `sops`. Se guarda en `~/.config/curza/config.toml` con `0600`, y **nunca** en el repo.
+
+### 10. El usuario objetivo usa Windows y no es hábil con computadoras
+
+Declarado por el usuario el 2026-09-02. Consecuencias que ya condicionan la v1:
+
+- **Confirma la elección de Go.** Compila a un `.exe` único sin runtime que instalar. Python o
+  Node exigirían que el alumno instale un intérprete: para este usuario, eso es el final.
+- **La v2 (interfaz web local) deja de ser opcional.** Una CLI es correcta para el usuario cero
+  (Rolando) y es inservible para el usuario objetivo.
+- **Nada de `nix develop` en la ruta del usuario final.** Sirve para desarrollar, no para
+  distribuir. Y `convert` delega en `pdftotext`/`pandoc`/`soffice`: **en Windows esas
+  dependencias externas son un problema abierto** y hay que resolverlo antes de la v2
+  (embeber, sustituir por librería Go, o degradar).
 
 ### 8. Se guarda estado local para no re-descargar
 
@@ -219,5 +233,6 @@ Lejos de ser un problema, obliga al producto a explicar desde el material en vez
 3. **La escala de las notas se desconoce.** Dos entregas dicen `2.00000` sin saber sobre cuánto.
 4. **Otro Moodle puede tener menos funciones habilitadas.** La v1 sirve a PEDCO; el producto
    tendrá que enumerar capacidades al conectar y degradar features que falten.
-5. **`parsefecha` queda sin consumidor.** La API devuelve timestamps. Se decide si se borra o
-   se deja como ejercicio; no se mantiene por nostalgia.
+5. ~~`parsefecha` queda sin consumidor~~ → **RESUELTO 2026-09-02: se borra.** La API devuelve
+   timestamps. El test que se escribió sobre él cumplió su función (fue donde se aprendió a
+   testear) y queda en la historia de git.
