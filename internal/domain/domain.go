@@ -1,11 +1,5 @@
 // Package domain tiene los tipos que cruzan capas.
 //
-// Hay UN tipo, no cinco. El spec listaba Materia/Unidad/Recurso/ForumPost/Horario,
-// pero hoy el único consumidor real es la emisión de .ics de vencimientos: los
-// tipos del material se agregan cuando exista quien los lea. El gauntlet ya
-// cazó dos campos inventados (Materia.Carrera, Horario.Modalidad) que no tenían
-// un solo lector en todo el diseño.
-//
 // Tampoco hay puertos todavía: un puerto se gana su lugar cuando hay una segunda
 // implementación que intercambiar, y por ahora hay una sola de cada cosa.
 package domain
@@ -17,9 +11,9 @@ import "time"
 type Tipo string
 
 const (
-	Tarea         Tipo = "tarea"         // mod_assign
-	Cuestionario  Tipo = "cuestionario"  // mod_quiz
-	Examen        Tipo = "examen"        // parcial / examen / recuperatorio
+	Tarea        Tipo = "tarea"        // mod_assign
+	Cuestionario Tipo = "cuestionario" // mod_quiz
+	Examen       Tipo = "examen"       // parcial / examen / recuperatorio
 )
 
 // Entrega es un vencimiento del calendario de Moodle: un TP, un cuestionario o
@@ -40,6 +34,18 @@ type Entrega struct {
 	Hasta time.Time
 
 	URL string
+}
+
+// Ruta al original.
+type Recurso struct {
+	Nombre        string
+	ContenidoRuta string
+}
+
+type Unidad struct {
+	MoodleID string
+	Titulo   string
+	Recursos []Recurso
 }
 
 // TieneRango dice si Moodle informó hora de fin.
